@@ -14,6 +14,20 @@ public class insertionSort {
 	private static void InsertSort(int[] arr) {
 		// TODO Auto-generated method stub
 		
+		//starting with index 1 for unsorted subArray
+		for(int i = 1; i < arr.length; i++) {
+			//first comparison to be done with index i-1
+			int j = i - 1;
+			//keeping the value which needs to be exchanged
+			int temp = arr[i];
+			
+			while (j>=0 && arr[j] > temp) {
+				//shift
+				arr[j + 1] = arr[j];
+				j--;
+			}
+			arr[j+1] = temp;
+		}
 	}
 
 }
