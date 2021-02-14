@@ -11,7 +11,7 @@ public class bubbleSort {
 		}
 	}
 
-	private static void BubbleSort(int[] arr) {
+	public static void BubbleSort(int[] arr) {
 		// TODO Auto-generated method stub
 		int temp = 0;
 		for (int i = 0; i < arr.length - 1; i++ ) {

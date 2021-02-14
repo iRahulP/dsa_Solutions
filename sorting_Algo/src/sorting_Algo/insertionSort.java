@@ -11,7 +11,7 @@ public class insertionSort {
 		}
 	}
 
-	private static void InsertSort(int[] arr) {
+	public static void InsertSort(int[] arr) {
 		// TODO Auto-generated method stub
 		
 		//starting with index 1 for unsorted subArray
