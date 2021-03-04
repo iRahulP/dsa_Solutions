@@ -20,7 +20,7 @@ public class Map<K,V> {
 	int numBuckets;
 	
 	public Map() {
-		numBuckets = 20;
+		numBuckets = 5;
 		buckets = new ArrayList<>();
 		for(int i = 0; i < numBuckets; i++) {
 			buckets.add(null);
@@ -43,6 +43,7 @@ public class Map<K,V> {
 		//traversing linked list
 		while(head != null) {
 			if(head.key.equals(key)) {
+				size--;
 				if(prev == null) {
 					//need to change bucket entry
 					//setting next one instead of head!
@@ -105,10 +106,48 @@ public class Map<K,V> {
 		}
 		//doesn't exist => create new node and insert at bucket key
 		MapNode<K,V> newElementNode = new MapNode<K,V>(key, value);
+		size++;
 		head = buckets.get(bucketIndex);
 		newElementNode.next = head;
 		//set the current bucket key pointer to new element and set next of newElement to earlier head=> chaining correctly
 		buckets.set(bucketIndex, newElementNode);
+		
+		double loadfactor = (1.0*size)/numBuckets;
+		if(loadfactor > 0.7) {
+			rehash();
+		}
+		
+	}
+
+
+	public double loadfactor() {
+		return (1.0 * size)/numBuckets;
+	}
+	
+	
+	private void rehash() {
+		System.out.println("Rehashing: buckets " +numBuckets+ " size "+size);
+		ArrayList<MapNode<K,V>> temp = buckets;
+		
+		buckets = new ArrayList<>();
+		for(int i=0; i < 2*numBuckets; i++) {
+			buckets.add(null);
+		}
+		
+		size = 0;
+		numBuckets *= 2;
+		//initializing buckets again with each key from temp's LL combined to a single node of bucket!!
+		//traversing temp buckets
+		for(int   i = 0 ; i < temp.size() ; i++) {
+			//traversing through each LL of each Node
+			MapNode<K,V> head = temp.get(i);
+			while(head != null) {
+				K key = head.key;
+				V value = head.value;
+				insert(key,value);
+				head = head.next;
+			}
+		}
 		
 	}
 	
