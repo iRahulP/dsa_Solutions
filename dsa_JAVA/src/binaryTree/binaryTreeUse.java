@@ -279,7 +279,6 @@ public class binaryTreeUse {
 		System.out.println(toBePrinted);
 		
 		print(root.left);
-
 		print(root.right);
 	
 	}
