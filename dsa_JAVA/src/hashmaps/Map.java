@@ -28,10 +28,60 @@ public class Map<K,V> {
 	}
 	
 	
+	public int size() {
+		return size;
+	}
+	
+	
+	public V removeKey(K key) {
+		int bucketIndex = getBucketIndex(key);
+		MapNode<K,V> head = buckets.get(bucketIndex);
+		
+		//getting the previous node and setting it with initial value.
+		MapNode<K,V> prev = null;
+		
+		//traversing linked list
+		while(head != null) {
+			if(head.key.equals(key)) {
+				if(prev == null) {
+					//need to change bucket entry
+					//setting next one instead of head!
+					buckets.set(bucketIndex, head.next);
+				}
+				else {
+					prev.next = head.next;
+				}
+				
+				return head.value;
+			}
+			//routing previous node and next node
+			prev = head;
+			head = head.next;
+		}
+		//doesn't exist => maybe key not present :(
+		return null;
+	}
+	
+	
+	//get index corresponding to key => traverse Ll, match key and return V :)
+	public V getValue(K key) {
+		int bucketIndex = getBucketIndex(key);
+		MapNode<K,V> head = buckets.get(bucketIndex);
+		//traversing linked list
+		while(head != null) {
+			if(head.key.equals(key)) {
+				return head.value;
+			}
+			head = head.next;
+		}
+		//doesn't exist => maybe key not present :(
+		return null;
+	} 
+	
+	
 	private int getBucketIndex(K key) {
 		//hashcode inherited from Object class
 		int hashcode = key.hashCode();
-		
 		return hashcode % numBuckets;
 	}
 	
