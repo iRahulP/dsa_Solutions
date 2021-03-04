@@ -1,4 +1,5 @@
 package binaryTree;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class binaryTreeUse {
@@ -31,8 +32,138 @@ public class binaryTreeUse {
 	
 	binaryTreeNode<Integer> roots = buildTree(in,pre);
 	printLevel(roots);
+	
 	}
 	
+	
+	public static ArrayList<Integer> rootToNodePath(binaryTreeNode<Integer> root, int Val){
+		
+		if(root == null) {
+			return null;
+		}
+		else if(root.data == Val) {
+			ArrayList<Integer> result = new ArrayList<Integer>();
+			result.add(root.data);
+			return result;
+		}
+		
+		ArrayList<Integer> leftOutput = rootToNodePath(root.left, Val);
+		if(leftOutput != null) {
+			leftOutput.add(root.data);
+			return leftOutput;
+		}
+		
+		ArrayList<Integer> rightOutput = rootToNodePath(root.right, Val);
+		if(rightOutput != null) {
+			rightOutput.add(root.data);
+			return rightOutput;
+		}
+		else 
+			return null;
+		
+	}
+	
+	
+	public static boolean isBST3(binaryTreeNode<Integer> root,int minVal,int maxVal) {
+		if(root == null) {
+			return true;
+		}
+		
+		if(root.data < minVal || root.data > maxVal) {
+			return false;
+		}
+		
+		boolean isLeftOk = isBST3(root.left, minVal, root.data - 1);
+		boolean isRightOk = isBST3(root.right, root.data, maxVal);
+	
+		return isLeftOk && isRightOk;
+	}
+	
+	
+	
+	
+	public static Pair<Boolean, Pair<Integer, Integer>> isItBST(binaryTreeNode<Integer> root){
+		if(root == null) {
+			Pair<Boolean, Pair<Integer, Integer>>  output = new Pair<Boolean, Pair<Integer, Integer>>() ;
+			output.first = true;
+			output.second = new Pair<Integer, Integer>();
+			output.second.first = Integer.MAX_VALUE;
+			output.second.second = Integer.MIN_VALUE;
+			return output;
+		}
+		
+		
+		Pair<Boolean, Pair<Integer, Integer>> leftOutput = isItBST(root.left);
+		Pair<Boolean, Pair<Integer, Integer>> rightOutput = isItBST(root.right);
+		
+		int min = Math.min(root.data, Math.min(leftOutput.second.first, rightOutput.second.first));
+		int max = Math.max(root.data, Math.max(leftOutput.second.second, rightOutput.second.second));
+
+		boolean isBST  = (root.data > leftOutput.second.second) 
+				&& 
+				(root.data <= rightOutput.second.first)
+				&&
+				leftOutput.first && rightOutput.first;
+		
+		
+		Pair<Boolean, Pair<Integer, Integer>>  output = new Pair<Boolean, Pair<Integer, Integer>>() ;
+		output.first = isBST;
+		output.second = new Pair<Integer, Integer>();
+		output.second.first =min;
+		output.second.second =max;
+		
+		
+		return output;
+	}
+	
+	
+	
+	
+	public static boolean isBST(binaryTreeNode<Integer> root) {
+		
+		if(root == null) {
+			return true;
+		}
+		
+		int leftMax = maximum(root.left);
+		int rightMin = minimum(root.right);	
+		
+		if(root.data < leftMax) {
+			return false;
+		}
+		
+		if(root.data > rightMin) {
+			return false;
+		}
+	
+		boolean isLeftBST = isBST(root.left);
+		boolean isRightBST = isBST(root.right);
+		
+		
+		return (isLeftBST && isRightBST);
+			
+	}
+	
+	
+	
+	private static int minimum(binaryTreeNode<Integer> root) {
+		// TODO Auto-generated method stub
+		if(root == null) {
+			return Integer.MAX_VALUE;
+		}
+		
+		return Math.min(root.data, Math.min(minimum(root.left), minimum(root.right)));		
+	}
+
+	private static int maximum(binaryTreeNode<Integer> root) {
+		// TODO Auto-generated method stub
+		if(root == null) {
+			return Integer.MIN_VALUE;
+		}
+		
+		return Math.max(root.data, Math.max(minimum(root.left), minimum(root.right)));		
+	}
+
 	public static int count(binaryTreeNode<Integer> root) {
 		
 		if(root == null) {
