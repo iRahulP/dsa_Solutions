@@ -1,8 +1,60 @@
-package inplaceHeapSort;
+package priorityQueueComparator;
 
 import java.util.PriorityQueue;
+import java.util.Comparator;
+
+
+class MaxPQComparator implements Comparator<Integer>{
+
+	@Override
+	public int compare(Integer o1, Integer o2) {
+		// TODO Auto-generated method stub
+		if(o1 < o2) {
+			return 1;
+		}else if(o1 > o2) {
+			return -1;
+		}
+		return 0;
+	}
+	
+}
+
+class MinPQComparator implements Comparator<Integer>{
+
+	@Override
+	public int compare(Integer o1, Integer o2) {
+		// TODO Auto-generated method stub
+		if(o1 < o2) {
+			return -1;
+		}else if(o1 > o2) {
+			return 1;
+		}
+		return 0;
+	}
+	
+}
+
+
+class StringLengthComparator implements Comparator<String>{
+
+
+	@Override
+	public int compare(String o1, String o2) {
+		// TODO Auto-generated method stub
+		if(o1.length() < o2.length()) {
+			return -1;
+		}else if(o1.length() > o2.length()) {
+			return 1;
+		}
+		return 0;
+	}
+	
+}
+
 
 public class priorityQueueUse {
+	
+	
 
 
 	public static void printkLargest(int arr[], int k) {
@@ -56,7 +108,10 @@ public class priorityQueueUse {
 	//using inbuilt Priority Queue
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
+		
+		MaxPQComparator maxComparator = new MaxPQComparator();
+		//alternative to MaxComaprator is => Collections.reverseOrder();
+		PriorityQueue<Integer> pq = new PriorityQueue<Integer>(maxComparator);
 		int arr[] = {5,1,9,2,0,6};
 		for(int i = 0 ; i< arr.length ; i++) {
 			pq.add(arr[i]);
@@ -81,6 +136,18 @@ public class priorityQueueUse {
 		System.out.println("\nGetting top three..\n");
 		printkLargest(arrY,3);
 		
+		
+		String arrS[] = { "this", "is" ,"a", "string", "queue"};
+		StringLengthComparator stringComparator = new StringLengthComparator();
+
+		PriorityQueue<String> pqS = new PriorityQueue<String>(stringComparator);
+		for(int i = 0 ; i< arrS.length ; i++) {
+			pqS.add(arrS[i]);
+		}
+	
+		while(! pqS.isEmpty()) {
+			System.out.print(pqS.remove()+" ");			
+		}
 		
 	}
 
