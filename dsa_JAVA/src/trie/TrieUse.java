@@ -9,6 +9,10 @@ public class TrieUse {
 		tr.add("news");
 		
 		System.out.println(tr.search("news"));
+
+		tr.remove("news");
+		System.out.println(tr.search("news"));
+	
 	}
 
 }

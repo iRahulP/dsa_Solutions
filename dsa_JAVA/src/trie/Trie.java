@@ -25,11 +25,12 @@ public class Trie {
 		root = new TrieNode('\0');
 	}
 
-	
+	//Add an element in Trie => word
 	public void add(TrieNode root, String word) {
 		
 		//base case
 		if(word.length() == 0) {
+			//setting termination so that NEWS is valid and not NEW
 			root.isTerminating = true;
 			return;
 		}
@@ -52,6 +53,8 @@ public class Trie {
 	}
 	
 	
+	
+	//Search an Element in Trie
 	public boolean search(String word, TrieNode root) {
 		
 		if(word.length() == 0) {
@@ -69,6 +72,30 @@ public class Trie {
 	public boolean search(String word) {
 		return search(word, root);
 	}
+	
+	
+	public void remove(String word, TrieNode root) {
+		
+		if(word.length() == 0) {
+			//set to not terminating
+			root.isTerminating = false;
+			return;
+		}
+		int childIndex = word.charAt(0) - 'a';
+		TrieNode child = root.children[childIndex];
+		//if null then return as no such word
+		if(child == null) {
+			return;
+		}
+		//word letter present further
+		remove(word.substring(1), child);	
+	}
+	
+	
+	public void remove(String word) {
+		remove(word, root);
+	}
+	
 	
 	
 }
