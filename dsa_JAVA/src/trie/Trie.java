@@ -6,11 +6,13 @@ class TrieNode{
 	char data;
 	boolean isTerminating;
 	TrieNode children[];
+	int childCount;
 
 	public TrieNode(char data) {
 		this.data = data;
 		isTerminating = false;
 		children = new TrieNode[26];
+		childCount = 0;
 	}
 
 
@@ -42,6 +44,7 @@ public class Trie {
 		if(child == null) {
 			child = new TrieNode(word.charAt(0));
 			root.children[childIndex] = child;
+			root.childCount++;
 		}
 		//recursion call for leftover word
 		add(child, word.substring(1));
@@ -88,7 +91,32 @@ public class Trie {
 			return;
 		}
 		//word letter present further
-		remove(word.substring(1), child);	
+		remove(word.substring(1), child);
+		
+		//We can remove child node only if it is non terminating
+		//and its number of children are 0
+		
+		if(! child.isTerminating && child.childCount ==0) {
+			root.children[childIndex] = null;
+			child = null;
+			root.childCount--;			
+		}
+		
+//		if(! child.isTerminating) {
+//			int numChild = 0;
+//			for(int i = 0 ; i < 26 ; i++) {
+//				if(child.children[i] != null) {
+//					numChild++;
+//				}
+//			}
+//			if(numChild == 0) {
+//				//delete child node
+//				root.children[childIndex] = null;
+//				child = null;
+//				root.childCount--;
+//			}
+//		}
+		
 	}
 	
 	
