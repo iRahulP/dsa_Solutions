@@ -13,4 +13,11 @@ public class Factorial {
 		}
 		return n * fact(n-1);
 	}
+	
+	public static int tailFact(int n, int val) {
+		if(n == 0) {
+			return val;
+		}
+		return tailFact(n-1,n*val);
+	}
 }
