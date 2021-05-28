@@ -1,4 +1,4 @@
-package gfg;
+
 
 public class Array {
 	
@@ -46,5 +46,20 @@ public class Array {
 		return n-1;
 	}
 	
+	public void reverse(int arr[]) {
+		int low = 0, high = arr.length-1;
+		while(low < high) {
+			swap(arr[low], arr[high]);
+			low++;
+			high--;
+		}
+	}
+	
+	private static void swap(int i, int j) {
+		// TODO Auto-generated method stub
+		int temp = j;
+		j = i;
+		i = temp;
+	}
 }
 
